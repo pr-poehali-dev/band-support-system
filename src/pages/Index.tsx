@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import Icon from "@/components/ui/icon";
 
 const LOGO_URL = "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/02c20da7-59e5-43f7-812f-a7b1d78df118.png";
+const FOUNDER_URL = "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/c7012271-cfd1-4083-8d86-270e446b08d2.jpg";
 
 const NAV_ITEMS = [
   { label: "Идеология", href: "#ideology" },
@@ -270,6 +271,21 @@ export default function Index() {
         </div>
 
         <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#FFD000]" style={{ zIndex: 2 }} />
+
+        {/* Founder photo */}
+        <div className="absolute right-0 bottom-0 top-0 w-[45%] md:w-[42%] hidden md:block" style={{ zIndex: 2 }}>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/30 to-transparent" style={{ zIndex: 1 }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/60" style={{ zIndex: 1 }} />
+          <img
+            src={FOUNDER_URL}
+            alt="Основатель BANNDA82"
+            className="w-full h-full object-cover object-top"
+          />
+          <div className="absolute bottom-10 right-8 text-right" style={{ zIndex: 2 }}>
+            <span className="font-oswald text-white text-sm tracking-[0.3em] uppercase opacity-60 block">Основатель</span>
+            <span className="font-oswald text-[#FFD000] text-lg font-bold tracking-widest uppercase">BANNDA82</span>
+          </div>
+        </div>
 
         <div className="relative max-w-7xl mx-auto w-full" style={{ zIndex: 3 }}>
           <span className="font-ibm text-[#FFD000] text-xs tracking-[0.4em] uppercase mb-6 block animate-fade-up delay-100">
