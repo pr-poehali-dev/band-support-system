@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+
 import Icon from "@/components/ui/icon";
+
+const SEND_APPLICATION_URL = "https://functions.poehali.dev/7e73bbac-1fcb-407f-880c-185014e33431";
 
 const LOGO_URL = "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/02c20da7-59e5-43f7-812f-a7b1d78df118.png";
 const FOUNDER_URL = "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/c7012271-cfd1-4083-8d86-270e446b08d2.jpg";
@@ -185,12 +188,35 @@ function Section({ id, children, className = "" }: { id?: string; children: Reac
 export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [form, setForm] = useState({ name: "", contact: "", about: "" });
+  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!form.name.trim() || !form.contact.trim()) return;
+    setFormStatus("loading");
+    try {
+      const res = await fetch(SEND_APPLICATION_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (res.ok) {
+        setFormStatus("success");
+        setForm({ name: "", contact: "", about: "" });
+      } else {
+        setFormStatus("error");
+      }
+    } catch {
+      setFormStatus("error");
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F5] font-ibm">
@@ -499,27 +525,52 @@ export default function Index() {
               Заполни заявку — совет команды свяжется с тобой в течение 3 рабочих дней. Мы открыты для музыкантов любых жанров и уровня подготовки.
             </p>
 
-            <div className="space-y-4 mb-8">
-              <input
-                type="text"
-                placeholder="Твоё имя / псевдоним"
-                className="w-full bg-transparent border border-[#1a1a1a] text-[#F5F5F5] placeholder-[#333] px-5 py-4 font-ibm text-sm focus:outline-none focus:border-[#FFD000] transition-colors"
-              />
-              <input
-                type="text"
-                placeholder="Контакт (Telegram / телефон)"
-                className="w-full bg-transparent border border-[#1a1a1a] text-[#F5F5F5] placeholder-[#333] px-5 py-4 font-ibm text-sm focus:outline-none focus:border-[#FFD000] transition-colors"
-              />
-              <textarea
-                placeholder="Расскажи о себе: жанр, инструменты, опыт"
-                rows={4}
-                className="w-full bg-transparent border border-[#1a1a1a] text-[#F5F5F5] placeholder-[#333] px-5 py-4 font-ibm text-sm focus:outline-none focus:border-[#FFD000] transition-colors resize-none"
-              />
-            </div>
+            {formStatus === "success" ? (
+              <div className="border border-[#FFD000] px-6 py-8 text-center">
+                <p className="font-oswald text-[#FFD000] text-2xl font-bold mb-2">Заявка отправлена!</p>
+                <p className="font-ibm text-[#555] text-sm">Совет команды свяжется с тобой в течение 3 рабочих дней.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <div className="space-y-4 mb-8">
+                  <input
+                    type="text"
+                    placeholder="Твоё имя / псевдоним"
+                    value={form.name}
+                    onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                    required
+                    className="w-full bg-transparent border border-[#1a1a1a] text-[#F5F5F5] placeholder-[#333] px-5 py-4 font-ibm text-sm focus:outline-none focus:border-[#FFD000] transition-colors"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Контакт (Telegram / телефон)"
+                    value={form.contact}
+                    onChange={e => setForm(f => ({ ...f, contact: e.target.value }))}
+                    required
+                    className="w-full bg-transparent border border-[#1a1a1a] text-[#F5F5F5] placeholder-[#333] px-5 py-4 font-ibm text-sm focus:outline-none focus:border-[#FFD000] transition-colors"
+                  />
+                  <textarea
+                    placeholder="Расскажи о себе: жанр, инструменты, опыт"
+                    rows={4}
+                    value={form.about}
+                    onChange={e => setForm(f => ({ ...f, about: e.target.value }))}
+                    className="w-full bg-transparent border border-[#1a1a1a] text-[#F5F5F5] placeholder-[#333] px-5 py-4 font-ibm text-sm focus:outline-none focus:border-[#FFD000] transition-colors resize-none"
+                  />
+                </div>
 
-            <button className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-10 py-4 font-bold hover:bg-white transition-colors w-full sm:w-auto">
-              Отправить заявку
-            </button>
+                {formStatus === "error" && (
+                  <p className="font-ibm text-red-500 text-sm mb-4">Что-то пошло не так. Попробуй ещё раз.</p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={formStatus === "loading"}
+                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-10 py-4 font-bold hover:bg-white transition-colors w-full sm:w-auto disabled:opacity-50"
+                >
+                  {formStatus === "loading" ? "Отправляем..." : "Отправить заявку"}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </Section>
