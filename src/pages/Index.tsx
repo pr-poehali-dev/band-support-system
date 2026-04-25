@@ -5,7 +5,7 @@ import Icon from "@/components/ui/icon";
 const SEND_APPLICATION_URL = "https://functions.poehali.dev/7e73bbac-1fcb-407f-880c-185014e33431";
 
 const LOGO_URL = "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/02c20da7-59e5-43f7-812f-a7b1d78df118.png";
-const FOUNDER_URL = "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/c7012271-cfd1-4083-8d86-270e446b08d2.jpg";
+const FOUNDER_URL = "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/43c7d1d4-6696-4497-ba5f-668c893ad42c.jpg";
 
 const NAV_ITEMS = [
   { label: "Идеология", href: "#ideology" },
