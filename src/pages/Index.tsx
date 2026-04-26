@@ -305,7 +305,7 @@ export default function Index() {
         <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#FFD000]" style={{ zIndex: 2 }} />
 
         {/* Founder photo */}
-        <div className="absolute right-0 bottom-0 top-0 w-[45%] md:w-[42%] hidden md:block" style={{ zIndex: 2 }}>
+        <div className="absolute right-0 bottom-0 top-0 w-[45%] md:w-[42%]" style={{ zIndex: 2 }}>
           <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/30 to-transparent" style={{ zIndex: 1 }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/60" style={{ zIndex: 1 }} />
           <img
