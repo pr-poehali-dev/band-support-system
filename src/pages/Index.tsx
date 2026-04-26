@@ -312,6 +312,18 @@ export default function Index() {
             <span className="font-ibm text-white text-sm opacity-70 block mt-1">Баннов Александр Анатольевич</span>
             <span className="font-ibm text-[#555] text-xs tracking-wider block mt-2">Основатель Nemezido Records</span>
             <span className="font-ibm text-[#555] text-xs tracking-wider block">Создатель системы BANNDA82</span>
+            <div className="flex gap-2 mt-4 justify-end">
+              <img
+                src="https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/dfde49e1-db44-4e92-a3a0-94ff0718a670.jpg"
+                alt="Фото 1"
+                className="w-20 h-20 object-cover border border-[#2a2a2a] hover:border-[#FFD000] transition-colors cursor-pointer"
+              />
+              <img
+                src="https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/01bf8128-106e-42ed-9af7-b59d8f1ac5eb.jpg"
+                alt="Фото 2"
+                className="w-20 h-20 object-cover border border-[#2a2a2a] hover:border-[#FFD000] transition-colors cursor-pointer"
+              />
+            </div>
           </div>
         </div>
 
