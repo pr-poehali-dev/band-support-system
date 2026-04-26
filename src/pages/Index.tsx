@@ -185,11 +185,17 @@ function Section({ id, children, className = "" }: { id?: string; children: Reac
   );
 }
 
+const GALLERY_PHOTOS = [
+  "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/dfde49e1-db44-4e92-a3a0-94ff0718a670.jpg",
+  "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/01bf8128-106e-42ed-9af7-b59d8f1ac5eb.jpg",
+];
+
 export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [form, setForm] = useState({ name: "", contact: "", about: "" });
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [lightbox, setLightbox] = useState<string | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -313,16 +319,15 @@ export default function Index() {
             <span className="font-ibm text-[#555] text-xs tracking-wider block mt-2">Основатель Nemezido Records</span>
             <span className="font-ibm text-[#555] text-xs tracking-wider block">Создатель системы BANNDA82</span>
             <div className="flex gap-2 mt-4 justify-end">
-              <img
-                src="https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/dfde49e1-db44-4e92-a3a0-94ff0718a670.jpg"
-                alt="Фото 1"
-                className="w-20 h-20 object-cover border border-[#2a2a2a] hover:border-[#FFD000] transition-colors cursor-pointer"
-              />
-              <img
-                src="https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/01bf8128-106e-42ed-9af7-b59d8f1ac5eb.jpg"
-                alt="Фото 2"
-                className="w-20 h-20 object-cover border border-[#2a2a2a] hover:border-[#FFD000] transition-colors cursor-pointer"
-              />
+              {GALLERY_PHOTOS.map((src, i) => (
+                <img
+                  key={i}
+                  src={src}
+                  alt={`Фото ${i + 1}`}
+                  onClick={() => setLightbox(src)}
+                  className="w-20 h-20 object-cover border border-[#2a2a2a] hover:border-[#FFD000] transition-colors cursor-pointer"
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -608,6 +613,26 @@ export default function Index() {
           </div>
         </div>
       </footer>
+
+      {lightbox && (
+        <div
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-[9999] cursor-pointer"
+          onClick={() => setLightbox(null)}
+        >
+          <button
+            className="absolute top-6 right-8 text-white text-3xl font-bold hover:text-[#FFD000] transition-colors"
+            onClick={() => setLightbox(null)}
+          >
+            ✕
+          </button>
+          <img
+            src={lightbox}
+            alt="Просмотр"
+            className="max-w-[90vw] max-h-[90vh] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 }
