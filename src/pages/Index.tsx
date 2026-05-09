@@ -334,7 +334,7 @@ export default function Index() {
 
         <div className="relative max-w-7xl mx-auto w-full" style={{ zIndex: 3 }}>
           <span className="font-ibm text-[#FFD000] text-xs tracking-[0.4em] uppercase mb-6 block animate-fade-up delay-100">
-            Крымская музыкальная организация · Основана в 2024
+            Крымская музыкальная организация · Основана в 2026
           </span>
 
           <h1
