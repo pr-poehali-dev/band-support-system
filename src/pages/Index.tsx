@@ -5,6 +5,7 @@ import Icon from "@/components/ui/icon";
 
 
 const SEND_APPLICATION_URL = "https://functions.poehali.dev/7e73bbac-1fcb-407f-880c-185014e33431";
+const TEAM_URL = "https://functions.poehali.dev/5d2cea8e-d6d9-4b46-86e7-60b2f2b6c006";
 
 const LOGO_URL = "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/b37bbf17-d860-439b-8a2b-931277c3e39c.png";
 const FOUNDER_URL = "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/43c7d1d4-6696-4497-ba5f-668c893ad42c.jpg";
@@ -92,9 +93,7 @@ const RULES = [
   },
 ];
 
-const TEAM_MEMBERS = [
-  { name: "BANNDA 82", real: "Баннов Александр Анатольевич", role: "Основатель, Nemezido Records" },
-];
+
 
 function useInView(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
@@ -132,7 +131,9 @@ function Section({ id, children, className = "" }: { id?: string; children: Reac
   );
 }
 
-function TeamMemberRow({ member }: { member: { name: string; real: string; role: string } }) {
+type TeamMember = { id: number; name: string; real: string; role: string };
+
+function TeamMemberRow({ member, onDelete, adminMode }: { member: TeamMember; onDelete: (id: number) => void; adminMode: boolean }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="bg-[#0D0D0D] hover:bg-[#111] transition-colors">
@@ -151,6 +152,14 @@ function TeamMemberRow({ member }: { member: { name: string; real: string; role:
           <div className="pt-5 flex flex-col gap-2">
             <span className="font-ibm text-[#F5F5F5] text-sm">{member.real}</span>
             <span className="font-ibm text-[#555] text-xs tracking-widest uppercase sm:hidden">{member.role}</span>
+            {adminMode && (
+              <button
+                onClick={() => onDelete(member.id)}
+                className="mt-2 font-ibm text-xs text-red-500 hover:text-red-400 text-left"
+              >
+                Удалить участника
+              </button>
+            )}
           </div>
         </div>
       )}
@@ -169,6 +178,66 @@ export default function Index() {
   const [form, setForm] = useState({ name: "", contact: "", about: "" });
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [lightbox, setLightbox] = useState<string | null>(null);
+
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+  const [adminMode, setAdminMode] = useState(false);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [adminPassword, setAdminPassword] = useState("");
+  const [adminError, setAdminError] = useState("");
+  const [newMember, setNewMember] = useState({ name: "", real: "", role: "" });
+  const [addingMember, setAddingMember] = useState(false);
+  const [addError, setAddError] = useState("");
+
+  useEffect(() => {
+    fetch(TEAM_URL)
+      .then(r => r.json())
+      .then(data => setTeamMembers(data.members || []))
+      .catch(() => {});
+  }, []);
+
+  async function handleAdminLogin() {
+    setAdminError("");
+    const res = await fetch(TEAM_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: adminPassword, action: "check" }),
+    });
+    const data = await res.json();
+    if (res.status === 403 || data.error) {
+      setAdminError("Неверный пароль");
+    } else {
+      setAdminMode(true);
+      setShowAdminLogin(false);
+    }
+  }
+
+  async function handleAddMember() {
+    if (!newMember.name.trim() || !newMember.real.trim()) return;
+    setAddingMember(true);
+    setAddError("");
+    const res = await fetch(TEAM_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...newMember, password: adminPassword, action: "add" }),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      setTeamMembers(m => [...m, { id: data.id, ...newMember }]);
+      setNewMember({ name: "", real: "", role: "" });
+    } else {
+      setAddError(data.error || "Ошибка");
+    }
+    setAddingMember(false);
+  }
+
+  async function handleDeleteMember(id: number) {
+    await fetch(TEAM_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "delete", id, password: adminPassword }),
+    });
+    setTeamMembers(m => m.filter(x => x.id !== id));
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -480,11 +549,86 @@ export default function Index() {
             </h2>
           </div>
 
-          <div className="flex flex-col gap-px bg-[#1a1a1a]">
-            {TEAM_MEMBERS.map((member, i) => (
-              <TeamMemberRow key={i} member={member} />
+          <div className="flex flex-col gap-px bg-[#1a1a1a] mb-8">
+            {teamMembers.length === 0 && (
+              <div className="bg-[#0D0D0D] px-8 py-6 font-ibm text-[#444] text-sm">Участники не добавлены</div>
+            )}
+            {teamMembers.map((member) => (
+              <TeamMemberRow key={member.id} member={member} adminMode={adminMode} onDelete={handleDeleteMember} />
             ))}
           </div>
+
+          {!adminMode ? (
+            <button
+              onClick={() => setShowAdminLogin(v => !v)}
+              className="font-ibm text-xs text-[#333] hover:text-[#FFD000] transition-colors tracking-widest uppercase"
+            >
+              + Управление командой
+            </button>
+          ) : (
+            <button
+              onClick={() => { setAdminMode(false); setShowAdminLogin(false); }}
+              className="font-ibm text-xs text-[#FFD000] tracking-widest uppercase"
+            >
+              Выйти из режима управления
+            </button>
+          )}
+
+          {showAdminLogin && !adminMode && (
+            <div className="mt-4 flex gap-3 items-center">
+              <input
+                type="password"
+                placeholder="Пароль"
+                value={adminPassword}
+                onChange={e => setAdminPassword(e.target.value)}
+                className="bg-transparent border border-[#1a1a1a] text-[#F5F5F5] placeholder-[#333] px-4 py-2 font-ibm text-sm focus:outline-none focus:border-[#FFD000] transition-colors"
+              />
+              <button
+                onClick={handleAdminLogin}
+                className="font-oswald text-xs tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-4 py-2 font-bold hover:bg-white transition-colors"
+              >
+                Войти
+              </button>
+              {adminError && <span className="font-ibm text-red-500 text-xs">{adminError}</span>}
+            </div>
+          )}
+
+          {adminMode && (
+            <div className="mt-6 border border-[#1a1a1a] p-6">
+              <h4 className="font-oswald text-white text-lg font-semibold mb-4 tracking-wide uppercase">Добавить участника</h4>
+              <div className="flex flex-col gap-3 max-w-md">
+                <input
+                  type="text"
+                  placeholder="Псевдоним (например: BANNGUN)"
+                  value={newMember.name}
+                  onChange={e => setNewMember(m => ({ ...m, name: e.target.value }))}
+                  className="bg-transparent border border-[#1a1a1a] text-[#F5F5F5] placeholder-[#333] px-4 py-3 font-ibm text-sm focus:outline-none focus:border-[#FFD000] transition-colors"
+                />
+                <input
+                  type="text"
+                  placeholder="Настоящее имя"
+                  value={newMember.real}
+                  onChange={e => setNewMember(m => ({ ...m, real: e.target.value }))}
+                  className="bg-transparent border border-[#1a1a1a] text-[#F5F5F5] placeholder-[#333] px-4 py-3 font-ibm text-sm focus:outline-none focus:border-[#FFD000] transition-colors"
+                />
+                <input
+                  type="text"
+                  placeholder="Роль (например: Битмейкер)"
+                  value={newMember.role}
+                  onChange={e => setNewMember(m => ({ ...m, role: e.target.value }))}
+                  className="bg-transparent border border-[#1a1a1a] text-[#F5F5F5] placeholder-[#333] px-4 py-3 font-ibm text-sm focus:outline-none focus:border-[#FFD000] transition-colors"
+                />
+                <button
+                  onClick={handleAddMember}
+                  disabled={addingMember}
+                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-6 py-3 font-bold hover:bg-white transition-colors disabled:opacity-50"
+                >
+                  {addingMember ? "Добавляем..." : "Добавить"}
+                </button>
+                {addError && <span className="font-ibm text-red-500 text-xs">{addError}</span>}
+              </div>
+            </div>
+          )}
         </div>
       </Section>
 
