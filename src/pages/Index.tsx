@@ -239,9 +239,7 @@ export default function Index() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-3">
-            <img src={LOGO_URL} alt="BANNDA82" style={{ height: 112, width: "auto", mixBlendMode: "multiply", filter: "contrast(1.1)" }} />
-          </a>
+          <a href="#" />
 
           <div className="hidden md:flex items-center gap-8">
             {NAV_ITEMS.map((item) =>
