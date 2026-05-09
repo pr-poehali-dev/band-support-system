@@ -2,6 +2,33 @@ import { useState, useEffect, useRef } from "react";
 
 import Icon from "@/components/ui/icon";
 
+function LogoCanvas({ src, className }: { src: string; className?: string }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < data.data.length; i += 4) {
+        const r = data.data[i], g = data.data[i + 1], b = data.data[i + 2];
+        if (r > 220 && g > 220 && b > 220) data.data[i + 3] = 0;
+      }
+      ctx.putImageData(data, 0, 0);
+    };
+    img.src = src;
+  }, [src]);
+
+  return <canvas ref={canvasRef} className={className} />;
+}
+
 const SEND_APPLICATION_URL = "https://functions.poehali.dev/7e73bbac-1fcb-407f-880c-185014e33431";
 
 const LOGO_URL = "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/b37bbf17-d860-439b-8a2b-931277c3e39c.png";
@@ -238,7 +265,7 @@ export default function Index() {
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <a href="#" className="flex items-center gap-3">
-            <img src={LOGO_URL} alt="BANNDA82" className="h-28 w-auto mix-blend-screen" />
+            <LogoCanvas src={LOGO_URL} className="h-28 w-auto" />
           </a>
 
           <div className="hidden md:flex items-center gap-8">
@@ -604,7 +631,7 @@ export default function Index() {
       {/* FOOTER */}
       <footer className="border-t border-[#141414] py-10 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <img src={LOGO_URL} alt="BANNDA82" className="h-12 w-auto mix-blend-screen" />
+          <LogoCanvas src={LOGO_URL} className="h-12 w-auto" />
           <span className="font-ibm text-[#2a2a2a] text-xs tracking-widest uppercase">
             © 2024 BANNDA82 — Все права защищены
           </span>
