@@ -730,9 +730,15 @@ export default function Index() {
       <footer className="border-t border-[#141414] py-10 px-6 md:px-16">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <img src={LOGO_URL} alt="BANNDA82" style={{ height: 48, width: "auto", mixBlendMode: "multiply", filter: "contrast(1.1)" }} />
-          <span className="font-ibm text-[#2a2a2a] text-xs tracking-widest uppercase">
-            © 2024 BANNDA82 — Все права защищены
-          </span>
+          <div className="flex flex-col items-center gap-1">
+            <span className="font-ibm text-[#2a2a2a] text-xs tracking-widest uppercase">
+              © 2026 BANNDA82 — Все права защищены
+            </span>
+            <span className="font-ibm text-[#333] text-xs flex items-center gap-1">
+              <Icon name="MapPin" size={11} className="text-[#FFD000]" />
+              Симферополь, ул. Тренева 21
+            </span>
+          </div>
           <div className="flex items-center gap-6">
             {[
               { l: "Идеология", h: "ideology" },
