@@ -422,11 +422,25 @@ export default function Index() {
                 Наша<br />студия
               </h2>
               <p className="font-ibm text-[#555] leading-relaxed mb-10 text-sm">
-                Собственная студия звукозаписи BANNDA82 — место, где рождаются треки. Профессиональное оборудование, акустически обработанные помещения и опытная команда — всё для того, чтобы ваш звук звучал так, как вы задумали.
+                Собственная студия звукозаписи{" "}
+                <a href="https://vk.ru/nemezidorecords" target="_blank" rel="noopener noreferrer" className="text-[#FFD000] hover:underline">
+                  NEMEZIDO RECORDS
+                </a>
+                {" "}— место, где рождаются треки. Профессиональное оборудование, акустически обработанные помещения и опытная команда — всё для того, чтобы ваш звук звучал так, как вы задумали.
               </p>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 mb-10">
                 <div className="w-10 h-[2px] bg-[#FFD000]" />
                 <span className="font-ibm text-[#444] text-xs tracking-widest uppercase">Доступно участникам команды</span>
+              </div>
+              <div className="flex flex-col items-start gap-3">
+                <span className="font-ibm text-[#444] text-xs tracking-widest uppercase">Перейти в студию</span>
+                <a href="https://vk.ru/nemezidorecords" target="_blank" rel="noopener noreferrer">
+                  <img
+                    src="https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/4d55cce6-1afb-4652-a653-5e140f52cce0.png"
+                    alt="QR NEMEZIDO RECORDS"
+                    className="w-36 h-36 hover:opacity-80 transition-opacity"
+                  />
+                </a>
               </div>
             </div>
 
