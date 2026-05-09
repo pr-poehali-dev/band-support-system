@@ -13,7 +13,7 @@ const NAV_ITEMS = [
   { label: "Идеология", href: "#ideology" },
   { label: "Студия", href: "#studio" },
   { label: "Регламент", href: "#rules" },
-  { label: "Бонусы", href: "#bonuses" },
+  { label: "Команда", href: "#bonuses" },
   { label: "Вступить", href: "#join" },
 ];
 
@@ -92,65 +92,8 @@ const RULES = [
   },
 ];
 
-const BONUS_TIERS = [
-  {
-    level: "STARTER",
-    points: "0 — 499",
-    color: "#666",
-    perks: [
-      "Доступ к студии со скидкой 50%",
-      "Участие в командных событиях",
-      "Базовая промо-поддержка релизов",
-    ],
-    featured: false,
-  },
-  {
-    level: "CREW",
-    points: "500 — 1499",
-    color: "#999",
-    perks: [
-      "Всё из Starter",
-      "2 бесплатных студийных часа в месяц",
-      "Приоритетное бронирование залов",
-      "Фича в командных плейлистах",
-    ],
-    featured: false,
-  },
-  {
-    level: "CORE",
-    points: "1500 — 3999",
-    color: "#FFD000",
-    perks: [
-      "Всё из Crew",
-      "5 бесплатных студийных часов в месяц",
-      "Право голоса в ключевых решениях",
-      "Персональное продвижение в соцсетях",
-      "Участие в совете команды",
-    ],
-    featured: false,
-  },
-  {
-    level: "LEGEND",
-    points: "4000+",
-    color: "#FFD000",
-    perks: [
-      "Всё из Core",
-      "Неограниченное студийное время",
-      "Co-founder права на совместные проекты",
-      "Пожизненное членство в BANNDA82",
-      "Именной сертификат основателя",
-    ],
-    featured: true,
-  },
-];
-
-const HOW_TO_EARN = [
-  { action: "Запись трека в студии BANNDA82", pts: "+50 pts" },
-  { action: "Участие в командном мероприятии", pts: "+30 pts" },
-  { action: "Совместный трек с участником команды", pts: "+100 pts" },
-  { action: "Приведённый новый участник", pts: "+200 pts" },
-  { action: "Релиз на стриминговых платформах", pts: "+150 pts" },
-  { action: "Представление команды на внешних событиях", pts: "+80 pts" },
+const TEAM_MEMBERS = [
+  { name: "BANNGUN", real: "Баннов Александр Анатольевич", role: "Основатель, Nemezido Records" },
 ];
 
 function useInView(threshold = 0.12) {
@@ -186,6 +129,32 @@ function Section({ id, children, className = "" }: { id?: string; children: Reac
     >
       {children}
     </section>
+  );
+}
+
+function TeamMemberRow({ member }: { member: { name: string; real: string; role: string } }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="bg-[#0D0D0D] hover:bg-[#111] transition-colors">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between px-8 py-6 text-left"
+      >
+        <div className="flex items-center gap-6">
+          <span className="font-oswald text-[#FFD000] text-lg font-bold tracking-widest uppercase">{member.name}</span>
+          <span className="font-ibm text-[#444] text-xs tracking-widest uppercase hidden sm:block">{member.role}</span>
+        </div>
+        <Icon name={open ? "ChevronUp" : "ChevronDown"} size={18} className="text-[#FFD000] shrink-0" />
+      </button>
+      {open && (
+        <div className="px-8 pb-6 border-t border-[#1a1a1a]">
+          <div className="pt-5 flex flex-col gap-2">
+            <span className="font-ibm text-[#F5F5F5] text-sm">{member.real}</span>
+            <span className="font-ibm text-[#555] text-xs tracking-widest uppercase sm:hidden">{member.role}</span>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -501,57 +470,20 @@ export default function Index() {
         </div>
       </Section>
 
-      {/* BONUSES */}
+      {/* TEAM */}
       <Section id="bonuses" className="py-28 px-6 md:px-16 bg-[#0D0D0D]">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
-            <span className="font-ibm text-[#FFD000] text-xs tracking-[0.4em] uppercase mb-4 block">04 / Бонусная программа</span>
+            <span className="font-ibm text-[#FFD000] text-xs tracking-[0.4em] uppercase mb-4 block">04 / Команда</span>
             <h2 className="font-oswald font-bold text-5xl md:text-7xl text-white leading-none">
-              Расти<br />вместе с нами
+              Наша<br />команда
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#1a1a1a] mb-14">
-            {BONUS_TIERS.map((tier, i) => (
-              <div
-                key={i}
-                className={`p-8 flex flex-col relative ${tier.featured ? "bg-[#0F0F00]" : "bg-[#0D0D0D]"} hover:bg-[#111] transition-colors`}
-              >
-                {tier.featured && (
-                  <span className="absolute top-4 right-4 font-oswald text-[10px] tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-2 py-1 font-bold">
-                    ТОП
-                  </span>
-                )}
-                <div className="mb-6">
-                  <h3 className="font-oswald text-2xl font-bold mb-1" style={{ color: tier.color }}>
-                    {tier.level}
-                  </h3>
-                  <span className="font-ibm text-[#333] text-xs tracking-widest">{tier.points} баллов</span>
-                </div>
-                <ul className="space-y-3 flex-1">
-                  {tier.perks.map((perk, j) => (
-                    <li key={j} className="flex items-start gap-2">
-                      <Icon name="Check" size={13} className="mt-0.5 shrink-0" style={{ color: tier.color }} />
-                      <span className="font-ibm text-[#555] text-xs leading-relaxed">{perk}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <div className="flex flex-col gap-px bg-[#1a1a1a]">
+            {TEAM_MEMBERS.map((member, i) => (
+              <TeamMemberRow key={i} member={member} />
             ))}
-          </div>
-
-          <div>
-            <h3 className="font-oswald text-xl font-semibold text-white mb-6 tracking-wide uppercase">
-              Как зарабатывать баллы
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#1a1a1a]">
-              {HOW_TO_EARN.map((item, i) => (
-                <div key={i} className="bg-[#0D0D0D] p-6 flex items-center justify-between gap-4 hover:bg-[#111] transition-colors">
-                  <span className="font-ibm text-[#555] text-sm">{item.action}</span>
-                  <span className="font-oswald text-[#FFD000] font-bold text-lg shrink-0">{item.pts}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </Section>
@@ -631,7 +563,7 @@ export default function Index() {
               { l: "Идеология", h: "ideology" },
               { l: "Студия", h: "studio" },
               { l: "Регламент", h: "rules" },
-              { l: "Бонусы", h: "bonuses" },
+              { l: "Команда", h: "bonuses" },
             ].map(({ l, h }) => (
               <a key={l} href={`#${h}`} className="font-ibm text-[#2a2a2a] text-xs hover:text-[#FFD000] transition-colors tracking-widest uppercase">
                 {l}
