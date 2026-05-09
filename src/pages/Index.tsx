@@ -238,7 +238,7 @@ export default function Index() {
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <a href="#" className="flex items-center gap-3">
-            <img src={LOGO_URL} alt="BANNDA82" className="h-16 w-auto" />
+            <img src={LOGO_URL} alt="BANNDA82" className="h-20 w-auto mix-blend-screen" />
           </a>
 
           <div className="hidden md:flex items-center gap-8">
