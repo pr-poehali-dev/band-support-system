@@ -349,9 +349,13 @@ export default function Index() {
             <span className="text-[#FFD000]">82</span>
           </h1>
 
-          <p className="font-oswald font-bold text-[#FFD000] uppercase tracking-widest mb-8 animate-fade-up delay-250" style={{ fontSize: "clamp(18px, 2.5vw, 36px)" }}>
+          <p className="font-oswald font-bold text-[#FFD000] uppercase tracking-widest mb-6 animate-fade-up delay-250" style={{ fontSize: "clamp(18px, 2.5vw, 36px)" }}>
             Первый крымский музыкальный лейбл
           </p>
+
+          <div className="mb-8 animate-fade-up delay-280">
+            <img src={LOGO_URL} alt="BANNDA82" style={{ height: 120, width: "auto", mixBlendMode: "multiply", filter: "contrast(1.1)" }} />
+          </div>
 
           <div className="animate-fade-up delay-300 max-w-lg">
             <p className="font-ibm text-[#666] text-lg leading-relaxed mb-10">
