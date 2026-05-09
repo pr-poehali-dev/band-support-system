@@ -93,7 +93,7 @@ const RULES = [
 ];
 
 const TEAM_MEMBERS = [
-  { name: "BANNGUN", real: "Баннов Александр Анатольевич", role: "Основатель, Nemezido Records" },
+  { name: "BANNDA 82", real: "Баннов Александр Анатольевич", role: "Основатель, Nemezido Records" },
 ];
 
 function useInView(threshold = 0.12) {
