@@ -15,6 +15,7 @@ const NAV_ITEMS = [
   { label: "Студия", href: "#studio" },
   { label: "Регламент", href: "#rules" },
   { label: "Команда", href: "#bonuses" },
+  { label: "Галерея", href: "#gallery" },
   { label: "Вступить", href: "#join" },
 ];
 
@@ -168,6 +169,9 @@ function TeamMemberRow({ member, onDelete, adminMode }: { member: TeamMember; on
 }
 
 const GALLERY_PHOTOS = [
+  "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/43c7d1d4-6696-4497-ba5f-668c893ad42c.jpg",
+  "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/e90db170-1c2b-466f-9e37-a03bc4a37585.jpg",
+  "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/960f7617-9b70-44c7-9e41-3c142acf6e27.png",
   "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/dfde49e1-db44-4e92-a3a0-94ff0718a670.jpg",
   "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/01bf8128-106e-42ed-9af7-b59d8f1ac5eb.jpg",
 ];
@@ -691,6 +695,33 @@ export default function Index() {
                 </button>
               </form>
             )}
+          </div>
+        </div>
+      </Section>
+
+      {/* GALLERY */}
+      <Section id="gallery" className="py-28 px-6 md:px-16 border-t border-[#141414]">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16">
+            <span className="font-ibm text-[#FFD000] text-xs tracking-[0.4em] uppercase mb-4 block">06 / Галерея</span>
+            <h2 className="font-oswald font-bold text-5xl md:text-7xl text-white leading-none">
+              Фото
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-[#1a1a1a]">
+            {GALLERY_PHOTOS.map((src, i) => (
+              <div
+                key={i}
+                className="aspect-square overflow-hidden cursor-pointer group bg-[#0D0D0D]"
+                onClick={() => setLightbox(src)}
+              >
+                <img
+                  src={src}
+                  alt={`Галерея ${i + 1}`}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </Section>
