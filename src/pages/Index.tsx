@@ -321,7 +321,7 @@ export default function Index() {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-5 py-2 font-semibold hover:bg-white transition-colors"
+                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-5 py-2 font-semibold hover:bg-white transition-colors hover-zoom"
                 >
                   {item.label}
                 </a>
@@ -406,7 +406,7 @@ export default function Index() {
                   src={src}
                   alt={`Фото ${i + 1}`}
                   onClick={() => setLightbox(src)}
-                  className="w-20 h-20 object-cover border border-[#2a2a2a] hover:border-[#FFD000] transition-colors cursor-pointer"
+                  className="w-20 h-20 object-cover border border-[#2a2a2a] hover:border-[#FFD000] transition-colors cursor-pointer hover-zoom"
                 />
               ))}
             </div>
@@ -445,13 +445,13 @@ export default function Index() {
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-up delay-400">
             <a
               href="#join"
-              className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-8 py-4 font-bold hover:bg-white transition-colors inline-block text-center"
+              className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-8 py-4 font-bold hover:bg-white transition-colors inline-block text-center hover-zoom"
             >
               Вступить в команду
             </a>
             <a
               href="#ideology"
-              className="font-oswald text-sm tracking-widest uppercase border border-[#2a2a2a] text-[#666] px-8 py-4 hover:border-[#FFD000] hover:text-[#FFD000] transition-colors inline-block text-center"
+              className="font-oswald text-sm tracking-widest uppercase border border-[#2a2a2a] text-[#666] px-8 py-4 hover:border-[#FFD000] hover:text-[#FFD000] transition-colors inline-block text-center hover-zoom"
             >
               Узнать больше
             </a>
@@ -479,7 +479,7 @@ export default function Index() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#141414]">
             {IDEOLOGY.map((item, i) => (
-              <div key={i} className="bg-[#0A0A0A] p-10 group hover:bg-[#0D0D0D] transition-colors">
+              <div key={i} className="bg-[#0A0A0A] p-10 group hover:bg-[#0D0D0D] transition-colors hover-zoom-sm">
                 <div className="w-10 h-10 border border-[#222] flex items-center justify-center mb-6 group-hover:border-[#FFD000] transition-colors">
                   <Icon name={item.icon} fallback="Music" size={18} className="text-[#FFD000]" />
                 </div>
@@ -525,7 +525,7 @@ export default function Index() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-[#1a1a1a]">
               {STUDIO_FEATURES.map((f, i) => (
-                <div key={i} className="bg-[#0D0D0D] p-8 hover:bg-[#111] transition-colors">
+                <div key={i} className="bg-[#0D0D0D] p-8 hover:bg-[#111] transition-colors hover-zoom-sm">
                   <span className="font-oswald text-[#FFD000] text-4xl font-bold block mb-3">
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -550,7 +550,7 @@ export default function Index() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {RULES.map((rule, i) => (
-              <div key={i} className="border border-[#1a1a1a] p-8 hover:border-[#252525] transition-colors">
+              <div key={i} className="border border-[#1a1a1a] p-8 hover:border-[#252525] transition-colors hover-zoom-sm">
                 <div className="flex items-baseline gap-4 mb-6">
                   <span className="font-oswald text-[#FFD000] text-5xl font-bold leading-none" style={{ opacity: 0.3 }}>
                     {rule.num}
@@ -629,7 +629,7 @@ export default function Index() {
               />
               <button
                 onClick={handleAdminLogin}
-                className="font-oswald text-xs tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-4 py-2 font-bold hover:bg-white transition-colors"
+                className="font-oswald text-xs tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-4 py-2 font-bold hover:bg-white transition-colors hover-zoom"
               >
                 Войти
               </button>
@@ -665,7 +665,7 @@ export default function Index() {
                 <button
                   onClick={handleAddMember}
                   disabled={addingMember}
-                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-6 py-3 font-bold hover:bg-white transition-colors disabled:opacity-50"
+                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-6 py-3 font-bold hover:bg-white transition-colors disabled:opacity-50 hover-zoom"
                 >
                   {addingMember ? "Добавляем..." : "Добавить"}
                 </button>
@@ -729,7 +729,7 @@ export default function Index() {
                 <button
                   type="submit"
                   disabled={formStatus === "loading"}
-                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-10 py-4 font-bold hover:bg-white transition-colors w-full sm:w-auto disabled:opacity-50"
+                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-10 py-4 font-bold hover:bg-white transition-colors w-full sm:w-auto disabled:opacity-50 hover-zoom"
                 >
                   {formStatus === "loading" ? "Отправляем..." : "Отправить заявку"}
                 </button>

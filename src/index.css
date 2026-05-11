@@ -183,6 +183,22 @@
     border-color: #ffd000;
   }
 
+  .hover-zoom {
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .hover-zoom:hover {
+    transform: scale(1.04);
+  }
+
+  .hover-zoom-sm {
+    transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .hover-zoom-sm:hover {
+    transform: scale(1.02);
+  }
+
   .grain {
     position: fixed;
     inset: 0;
