@@ -126,7 +126,12 @@ function Section({ id, children, className = "" }: { id?: string; children: Reac
     <section
       id={id}
       ref={ref}
-      className={`transition-all duration-700 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"} ${className}`}
+      className={`transition-all duration-700 ${className}`}
+      style={{
+        opacity: inView ? 1 : 0,
+        transform: inView ? "scale(1) translateY(0)" : "scale(0.95) translateY(24px)",
+        transition: "opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1)",
+      }}
     >
       {children}
     </section>
@@ -341,7 +346,12 @@ export default function Index() {
         </div>
 
         {menuOpen && (
-          <div className="md:hidden bg-[#0D0D0D] border-t border-[#1a1a1a] px-6 py-6 flex flex-col gap-5">
+          <div
+            className="md:hidden bg-[#0D0D0D] border-t border-[#1a1a1a] px-6 py-6 flex flex-col gap-5"
+            style={{
+              animation: "zoomIn 0.28s cubic-bezier(0.22,1,0.36,1) both",
+            }}
+          >
             {NAV_ITEMS.map((item) => (
               <a
                 key={item.label}
@@ -606,7 +616,10 @@ export default function Index() {
           )}
 
           {showAdminLogin && !adminMode && (
-            <div className="mt-4 flex gap-3 items-center">
+            <div
+              className="mt-4 flex gap-3 items-center"
+              style={{ animation: "zoomIn 0.25s cubic-bezier(0.22,1,0.36,1) both" }}
+            >
               <input
                 type="password"
                 placeholder="Пароль"
@@ -784,6 +797,7 @@ export default function Index() {
       {lightbox && (
         <div
           className="fixed inset-0 bg-black/90 flex items-center justify-center z-[9999] cursor-pointer"
+          style={{ animation: "zoomIn 0.22s cubic-bezier(0.22,1,0.36,1) both" }}
           onClick={() => setLightbox(null)}
         >
           <button
@@ -796,6 +810,7 @@ export default function Index() {
             src={lightbox}
             alt="Просмотр"
             className="max-w-[90vw] max-h-[90vh] object-contain"
+            style={{ animation: "zoomIn 0.3s cubic-bezier(0.22,1,0.36,1) both" }}
             onClick={(e) => e.stopPropagation()}
           />
         </div>
