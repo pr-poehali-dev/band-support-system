@@ -395,7 +395,7 @@ export default function Index() {
             className="w-full h-full object-cover object-top"
           />
           <div className="absolute bottom-10 right-8 text-right" style={{ zIndex: 2 }}>
-            <span className="font-oswald text-[#FFD000] text-xl font-bold tracking-widest uppercase block">BANNGUN</span>
+            <a href="https://vk.ru/banngun" target="_blank" rel="noopener noreferrer" className="font-oswald text-[#FFD000] text-xl font-bold tracking-widest uppercase block hover:underline hover-zoom">BANNGUN</a>
             <span className="font-ibm text-white text-sm opacity-70 block mt-1">Баннов Александр Анатольевич</span>
             <span className="font-ibm text-[#555] text-xs tracking-wider block mt-2">Основатель Nemezido Records</span>
             <span className="font-ibm text-[#555] text-xs tracking-wider block">Создатель системы BANNDA82</span>
