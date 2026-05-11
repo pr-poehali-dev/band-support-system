@@ -137,10 +137,28 @@ type TeamMember = { id: number; name: string; real: string; role: string };
 
 function TeamMemberRow({ member, onDelete, adminMode }: { member: TeamMember; onDelete: (id: number) => void; adminMode: boolean }) {
   const [open, setOpen] = useState(false);
+  const [animating, setAnimating] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  const handleToggle = () => {
+    if (animating) return;
+    if (!open) {
+      setOpen(true);
+      setAnimating(true);
+      setVisible(false);
+      setTimeout(() => setVisible(true), 10);
+      setTimeout(() => setAnimating(false), 350);
+    } else {
+      setAnimating(true);
+      setVisible(false);
+      setTimeout(() => { setOpen(false); setAnimating(false); }, 300);
+    }
+  };
+
   return (
     <div className="bg-[#0D0D0D] hover:bg-[#111] transition-colors">
       <button
-        onClick={() => setOpen(o => !o)}
+        onClick={handleToggle}
         className="w-full flex items-center justify-between px-8 py-6 text-left"
       >
         <div className="flex items-center gap-6">
@@ -150,7 +168,15 @@ function TeamMemberRow({ member, onDelete, adminMode }: { member: TeamMember; on
         <Icon name={open ? "ChevronUp" : "ChevronDown"} size={18} className="text-[#FFD000] shrink-0" />
       </button>
       {open && (
-        <div className="px-8 pb-6 border-t border-[#1a1a1a]">
+        <div
+          className="px-8 pb-6 border-t border-[#1a1a1a]"
+          style={{
+            transition: "opacity 0.3s ease, transform 0.3s ease",
+            opacity: visible ? 1 : 0,
+            transform: visible ? "scale(1)" : "scale(0.93)",
+            transformOrigin: "top center",
+          }}
+        >
           <div className="pt-5 flex flex-col gap-2">
             <span className="font-ibm text-[#F5F5F5] text-sm">{member.real}</span>
             <span className="font-ibm text-[#555] text-xs tracking-widest uppercase sm:hidden">{member.role}</span>
