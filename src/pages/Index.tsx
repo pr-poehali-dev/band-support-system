@@ -515,17 +515,16 @@ export default function Index() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 animate-fade-up delay-400">
+          <div className="animate-fade-up delay-400">
             <a
               href="#join"
-              className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-8 py-4 font-bold hover:bg-white transition-colors inline-block text-center"
+              className="font-oswald text-xs tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-5 py-3 font-bold hover:bg-white transition-colors inline-block text-center"
               style={{ transition: "transform 0.2s ease, background 0.2s ease" }}
               onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.05)"}
               onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
             >
               Вступить в команду
             </a>
-
           </div>
         </div>
 
