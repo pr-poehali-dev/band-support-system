@@ -525,15 +525,7 @@ export default function Index() {
             >
               Вступить в команду
             </a>
-            <a
-              href="#ideology"
-              className="font-oswald text-sm tracking-widest uppercase border border-[#2a2a2a] text-[#666] px-8 py-4 hover:border-[#FFD000] hover:text-[#FFD000] transition-colors inline-block text-center"
-              style={{ transition: "transform 0.2s ease, color 0.2s ease, border-color 0.2s ease" }}
-              onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.05)"}
-              onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
-            >
-              Узнать больше
-            </a>
+
           </div>
         </div>
 
