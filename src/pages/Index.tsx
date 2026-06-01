@@ -126,7 +126,7 @@ function Section({ id, children, className = "" }: { id?: string; children: Reac
     <section
       id={id}
       ref={ref}
-      className={`transition-all duration-700 ${className}`}
+      className={className}
       style={{
         opacity: inView ? 1 : 0,
         transform: inView ? "scale(1) translateY(0)" : "scale(0.95) translateY(24px)",
@@ -321,7 +321,7 @@ export default function Index() {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-5 py-2 font-semibold hover:bg-white transition-colors hover-zoom"
+                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-5 py-2 font-semibold hover:bg-white transition-all duration-200 hover:scale-105"
                 >
                   {item.label}
                 </a>
@@ -395,7 +395,15 @@ export default function Index() {
             className="w-full h-full object-cover object-top"
           />
           <div className="absolute bottom-10 right-8 text-right" style={{ zIndex: 2 }}>
-            <a href="https://vk.ru/banngun" target="_blank" rel="noopener noreferrer" className="font-oswald text-[#FFD000] text-xl font-bold tracking-widest uppercase block hover:underline hover-zoom">BANNGUN</a>
+            <a
+              href="https://vk.ru/banngun"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ position: "relative", zIndex: 20 }}
+              className="font-oswald text-[#FFD000] text-xl font-bold tracking-widest uppercase block cursor-pointer hover:underline transition-transform duration-200 hover:scale-110"
+            >
+              BANNGUN
+            </a>
             <span className="font-ibm text-white text-sm opacity-70 block mt-1">Баннов Александр Анатольевич</span>
             <span className="font-ibm text-[#555] text-xs tracking-wider block mt-2">Основатель Nemezido Records</span>
             <span className="font-ibm text-[#555] text-xs tracking-wider block">Создатель системы BANNDA82</span>
@@ -445,13 +453,13 @@ export default function Index() {
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-up delay-400">
             <a
               href="#join"
-              className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-8 py-4 font-bold hover:bg-white transition-colors inline-block text-center hover-zoom"
+              className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-8 py-4 font-bold hover:bg-white transition-all duration-200 hover:scale-105 inline-block text-center"
             >
               Вступить в команду
             </a>
             <a
               href="#ideology"
-              className="font-oswald text-sm tracking-widest uppercase border border-[#2a2a2a] text-[#666] px-8 py-4 hover:border-[#FFD000] hover:text-[#FFD000] transition-colors inline-block text-center hover-zoom"
+              className="font-oswald text-sm tracking-widest uppercase border border-[#2a2a2a] text-[#666] px-8 py-4 hover:border-[#FFD000] hover:text-[#FFD000] transition-all duration-200 hover:scale-105 inline-block text-center"
             >
               Узнать больше
             </a>
@@ -629,7 +637,7 @@ export default function Index() {
               />
               <button
                 onClick={handleAdminLogin}
-                className="font-oswald text-xs tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-4 py-2 font-bold hover:bg-white transition-colors hover-zoom"
+                className="font-oswald text-xs tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-4 py-2 font-bold hover:bg-white transition-all duration-200 hover:scale-105"
               >
                 Войти
               </button>
@@ -665,7 +673,7 @@ export default function Index() {
                 <button
                   onClick={handleAddMember}
                   disabled={addingMember}
-                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-6 py-3 font-bold hover:bg-white transition-colors disabled:opacity-50 hover-zoom"
+                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-6 py-3 font-bold hover:bg-white transition-all duration-200 hover:scale-105 disabled:opacity-50"
                 >
                   {addingMember ? "Добавляем..." : "Добавить"}
                 </button>
@@ -729,7 +737,7 @@ export default function Index() {
                 <button
                   type="submit"
                   disabled={formStatus === "loading"}
-                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-10 py-4 font-bold hover:bg-white transition-colors w-full sm:w-auto disabled:opacity-50 hover-zoom"
+                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-10 py-4 font-bold hover:bg-white transition-all duration-200 hover:scale-105 w-full sm:w-auto disabled:opacity-50"
                 >
                   {formStatus === "loading" ? "Отправляем..." : "Отправить заявку"}
                 </button>
