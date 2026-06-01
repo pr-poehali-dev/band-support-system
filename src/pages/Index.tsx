@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { label: "Регламент", href: "#rules" },
   { label: "Команда", href: "#bonuses" },
   { label: "Галерея", href: "#gallery" },
+  { label: "Правила и условия", href: "#terms" },
   { label: "Вступить", href: "#join" },
 ];
 
@@ -926,6 +927,44 @@ export default function Index() {
               )}
             </div>
           )}
+        </div>
+      </Section>
+
+      {/* TERMS */}
+      <Section id="terms" className="py-28 px-6 md:px-16 border-t border-[#141414]">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16">
+            <span className="font-ibm text-[#FFD000] text-xs tracking-[0.4em] uppercase mb-4 block">07 / Правила и условия</span>
+            <h2 className="font-oswald font-bold text-5xl md:text-7xl text-white leading-none">
+              Правила<br />и условия
+            </h2>
+          </div>
+          <div className="max-w-3xl space-y-10 font-ibm text-[#555] text-sm leading-relaxed">
+            <div>
+              <h3 className="font-oswald text-white text-xl tracking-wide uppercase mb-3">1. Общие положения</h3>
+              <p>Используя сайт BANNDA82, вы соглашаетесь с настоящими правилами. Сайт предназначен исключительно для информирования о деятельности музыкального объединения BANNDA82.</p>
+            </div>
+            <div>
+              <h3 className="font-oswald text-white text-xl tracking-wide uppercase mb-3">2. Подача заявки</h3>
+              <p>Заполняя форму на вступление, вы даёте согласие на обработку и хранение предоставленных данных (имя, контакт, описание) с целью рассмотрения заявки советом команды. Данные не передаются третьим лицам.</p>
+            </div>
+            <div>
+              <h3 className="font-oswald text-white text-xl tracking-wide uppercase mb-3">3. Интеллектуальная собственность</h3>
+              <p>Все материалы сайта — тексты, фотографии, логотипы — являются собственностью BANNDA82. Копирование и распространение без письменного разрешения запрещено.</p>
+            </div>
+            <div>
+              <h3 className="font-oswald text-white text-xl tracking-wide uppercase mb-3">4. Ограничение ответственности</h3>
+              <p>BANNDA82 не несёт ответственности за действия третьих лиц, а также за временную недоступность сайта по техническим причинам.</p>
+            </div>
+            <div>
+              <h3 className="font-oswald text-white text-xl tracking-wide uppercase mb-3">5. Изменения</h3>
+              <p>Администрация оставляет за собой право вносить изменения в настоящие правила без предварительного уведомления. Актуальная версия всегда доступна на этой странице.</p>
+            </div>
+            <div>
+              <h3 className="font-oswald text-white text-xl tracking-wide uppercase mb-3">6. Контакт</h3>
+              <p>По вопросам, связанным с правилами и условиями, обращайтесь через форму вступления или напрямую к основателю по адресу: <a href="https://vk.ru/banngun" target="_blank" rel="noopener noreferrer" className="text-[#FFD000] hover:underline">vk.ru/banngun</a></p>
+            </div>
+          </div>
         </div>
       </Section>
 
