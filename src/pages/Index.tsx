@@ -460,16 +460,15 @@ export default function Index() {
               href="https://vk.ru/banngun"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-oswald text-[#FFD000] text-xl font-bold tracking-widest uppercase block cursor-pointer"
-              style={{ display: "inline-block", transition: "transform 0.2s ease, text-decoration 0.2s ease" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "scale(1.1)"; (e.currentTarget as HTMLElement).style.textDecoration = "underline"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; (e.currentTarget as HTMLElement).style.textDecoration = "none"; }}
+              style={{ display: "inline-block", textDecoration: "none", transition: "transform 0.2s ease" }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.04)"}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
             >
-              BANNGUN
+              <span className="font-oswald text-[#FFD000] text-2xl md:text-3xl font-bold tracking-widest uppercase block leading-tight">BANNGUN</span>
+              <span className="font-ibm text-white text-base font-semibold block mt-1 tracking-wide">Баннов Александр Анатольевич</span>
+              <span className="font-ibm text-[#777] text-xs tracking-wider block mt-2">Основатель Nemezido Records</span>
+              <span className="font-ibm text-[#777] text-xs tracking-wider block">Создатель системы BANNDA82</span>
             </a>
-            <span className="font-ibm text-white text-sm opacity-70 block mt-1">Баннов Александр Анатольевич</span>
-            <span className="font-ibm text-[#555] text-xs tracking-wider block mt-2">Основатель Nemezido Records</span>
-            <span className="font-ibm text-[#555] text-xs tracking-wider block">Создатель системы BANNDA82</span>
             <div className="flex gap-2 mt-4 justify-end">
               {galleryPhotos.slice(0, 5).map((photo) => (
                 <img
