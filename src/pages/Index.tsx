@@ -321,7 +321,10 @@ export default function Index() {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-5 py-2 font-semibold hover:bg-white transition-all duration-200 hover:scale-105"
+                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-5 py-2 font-semibold hover:bg-white transition-colors"
+                  style={{ display: "inline-block", transition: "transform 0.2s ease, background 0.2s ease" }}
+                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.07)"}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
                 >
                   {item.label}
                 </a>
@@ -387,20 +390,22 @@ export default function Index() {
 
         {/* Founder photo */}
         <div className="absolute right-0 bottom-0 top-0 w-[45%] md:w-[42%]" style={{ zIndex: 2 }}>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/30 to-transparent" style={{ zIndex: 1 }} />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/60" style={{ zIndex: 1 }} />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/30 to-transparent" style={{ zIndex: 1, pointerEvents: "none" }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/60" style={{ zIndex: 1, pointerEvents: "none" }} />
           <img
             src={FOUNDER_URL}
             alt="Основатель BANNDA82"
             className="w-full h-full object-cover object-top"
           />
-          <div className="absolute bottom-10 right-8 text-right" style={{ zIndex: 2 }}>
+          <div className="absolute bottom-10 right-8 text-right" style={{ zIndex: 10 }}>
             <a
               href="https://vk.ru/banngun"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ position: "relative", zIndex: 20 }}
-              className="font-oswald text-[#FFD000] text-xl font-bold tracking-widest uppercase block cursor-pointer hover:underline transition-transform duration-200 hover:scale-110"
+              className="font-oswald text-[#FFD000] text-xl font-bold tracking-widest uppercase block cursor-pointer"
+              style={{ display: "inline-block", transition: "transform 0.2s ease, text-decoration 0.2s ease" }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "scale(1.1)"; (e.currentTarget as HTMLElement).style.textDecoration = "underline"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; (e.currentTarget as HTMLElement).style.textDecoration = "none"; }}
             >
               BANNGUN
             </a>
@@ -453,13 +458,19 @@ export default function Index() {
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-up delay-400">
             <a
               href="#join"
-              className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-8 py-4 font-bold hover:bg-white transition-all duration-200 hover:scale-105 inline-block text-center"
+              className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-8 py-4 font-bold hover:bg-white transition-colors inline-block text-center"
+              style={{ transition: "transform 0.2s ease, background 0.2s ease" }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.05)"}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
             >
               Вступить в команду
             </a>
             <a
               href="#ideology"
-              className="font-oswald text-sm tracking-widest uppercase border border-[#2a2a2a] text-[#666] px-8 py-4 hover:border-[#FFD000] hover:text-[#FFD000] transition-all duration-200 hover:scale-105 inline-block text-center"
+              className="font-oswald text-sm tracking-widest uppercase border border-[#2a2a2a] text-[#666] px-8 py-4 hover:border-[#FFD000] hover:text-[#FFD000] transition-colors inline-block text-center"
+              style={{ transition: "transform 0.2s ease, color 0.2s ease, border-color 0.2s ease" }}
+              onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.05)"}
+              onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
             >
               Узнать больше
             </a>
@@ -637,7 +648,10 @@ export default function Index() {
               />
               <button
                 onClick={handleAdminLogin}
-                className="font-oswald text-xs tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-4 py-2 font-bold hover:bg-white transition-all duration-200 hover:scale-105"
+                className="font-oswald text-xs tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-4 py-2 font-bold hover:bg-white transition-colors"
+                style={{ transition: "transform 0.2s ease, background 0.2s ease" }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.07)"}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
               >
                 Войти
               </button>
@@ -673,7 +687,10 @@ export default function Index() {
                 <button
                   onClick={handleAddMember}
                   disabled={addingMember}
-                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-6 py-3 font-bold hover:bg-white transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-6 py-3 font-bold hover:bg-white transition-colors disabled:opacity-50"
+                  style={{ transition: "transform 0.2s ease, background 0.2s ease" }}
+                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.05)"}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
                 >
                   {addingMember ? "Добавляем..." : "Добавить"}
                 </button>
@@ -737,7 +754,10 @@ export default function Index() {
                 <button
                   type="submit"
                   disabled={formStatus === "loading"}
-                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-10 py-4 font-bold hover:bg-white transition-all duration-200 hover:scale-105 w-full sm:w-auto disabled:opacity-50"
+                  className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-10 py-4 font-bold hover:bg-white transition-colors w-full sm:w-auto disabled:opacity-50"
+                  style={{ transition: "transform 0.2s ease, background 0.2s ease" }}
+                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.03)"}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
                 >
                   {formStatus === "loading" ? "Отправляем..." : "Отправить заявку"}
                 </button>
