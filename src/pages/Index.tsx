@@ -6,6 +6,7 @@ import Icon from "@/components/ui/icon";
 
 const SEND_APPLICATION_URL = "https://functions.poehali.dev/7e73bbac-1fcb-407f-880c-185014e33431";
 const TEAM_URL = "https://functions.poehali.dev/5d2cea8e-d6d9-4b46-86e7-60b2f2b6c006";
+const GALLERY_URL = "https://functions.poehali.dev/e970e493-ed5b-437a-82f1-93fb9b2bbc86";
 
 const LOGO_URL = "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/b37bbf17-d860-439b-8a2b-931277c3e39c.png";
 const FOUNDER_URL = "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/43c7d1d4-6696-4497-ba5f-668c893ad42c.jpg";
@@ -200,13 +201,7 @@ function TeamMemberRow({ member, onDelete, adminMode }: { member: TeamMember; on
   );
 }
 
-const GALLERY_PHOTOS = [
-  "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/43c7d1d4-6696-4497-ba5f-668c893ad42c.jpg",
-  "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/e90db170-1c2b-466f-9e37-a03bc4a37585.jpg",
-  "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/960f7617-9b70-44c7-9e41-3c142acf6e27.png",
-  "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/dfde49e1-db44-4e92-a3a0-94ff0718a670.jpg",
-  "https://cdn.poehali.dev/projects/65ca4191-e228-49b4-a044-e9d1a57b79de/bucket/01bf8128-106e-42ed-9af7-b59d8f1ac5eb.jpg",
-];
+
 
 export default function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -224,10 +219,23 @@ export default function Index() {
   const [addingMember, setAddingMember] = useState(false);
   const [addError, setAddError] = useState("");
 
+  const [galleryPhotos, setGalleryPhotos] = useState<{key: string; url: string}[]>([]);
+  const [showGalleryLogin, setShowGalleryLogin] = useState(false);
+  const [galleryPassword, setGalleryPassword] = useState("");
+  const [galleryAdminMode, setGalleryAdminMode] = useState(false);
+  const [galleryError, setGalleryError] = useState("");
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const [deletingKey, setDeletingKey] = useState<string | null>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     fetch(TEAM_URL)
       .then(r => r.json())
       .then(data => setTeamMembers(data.members || []))
+      .catch(() => {});
+    fetch(GALLERY_URL)
+      .then(r => r.json())
+      .then(data => setGalleryPhotos(data.photos || []))
       .catch(() => {});
   }, []);
 
@@ -273,6 +281,55 @@ export default function Index() {
       body: JSON.stringify({ action: "delete", id, password: adminPassword }),
     });
     setTeamMembers(m => m.filter(x => x.id !== id));
+  }
+
+  async function handleGalleryLogin() {
+    setGalleryError("");
+    const res = await fetch(TEAM_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: galleryPassword, action: "check" }),
+    });
+    const data = await res.json();
+    if (res.status === 403 || data.error) {
+      setGalleryError("Неверный пароль");
+    } else {
+      setGalleryAdminMode(true);
+      setShowGalleryLogin(false);
+    }
+  }
+
+  async function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingPhoto(true);
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64 = (reader.result as string).split(",")[1];
+      const res = await fetch(GALLERY_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: galleryPassword, file: base64, content_type: file.type, action: "upload" }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setGalleryPhotos(p => [{ key: data.key, url: data.url }, ...p]);
+      }
+      setUploadingPhoto(false);
+      if (galleryInputRef.current) galleryInputRef.current.value = "";
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async function handleDeletePhoto(key: string) {
+    setDeletingKey(key);
+    await fetch(GALLERY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: galleryPassword, action: "delete", key }),
+    });
+    setGalleryPhotos(p => p.filter(x => x.key !== key));
+    setDeletingKey(null);
   }
 
   useEffect(() => {
@@ -413,13 +470,16 @@ export default function Index() {
             <span className="font-ibm text-[#555] text-xs tracking-wider block mt-2">Основатель Nemezido Records</span>
             <span className="font-ibm text-[#555] text-xs tracking-wider block">Создатель системы BANNDA82</span>
             <div className="flex gap-2 mt-4 justify-end">
-              {GALLERY_PHOTOS.map((src, i) => (
+              {galleryPhotos.slice(0, 5).map((photo) => (
                 <img
-                  key={i}
-                  src={src}
-                  alt={`Фото ${i + 1}`}
-                  onClick={() => setLightbox(src)}
-                  className="w-20 h-20 object-cover border border-[#2a2a2a] hover:border-[#FFD000] transition-colors cursor-pointer hover-zoom"
+                  key={photo.key}
+                  src={photo.url}
+                  alt="Фото"
+                  onClick={() => setLightbox(photo.url)}
+                  className="w-20 h-20 object-cover border border-[#2a2a2a] hover:border-[#FFD000] transition-colors cursor-pointer"
+                  style={{ transition: "transform 0.2s ease, border-color 0.2s ease" }}
+                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.08)"}
+                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
                 />
               ))}
             </div>
@@ -776,21 +836,96 @@ export default function Index() {
               Фото
             </h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-[#1a1a1a]">
-            {GALLERY_PHOTOS.map((src, i) => (
+
+          {galleryPhotos.length === 0 && !uploadingPhoto && (
+            <p className="font-ibm text-[#444] text-sm mb-8">Фото ещё не добавлены</p>
+          )}
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-[#1a1a1a] mb-8">
+            {galleryPhotos.map((photo) => (
               <div
-                key={i}
-                className="aspect-square overflow-hidden cursor-pointer group bg-[#0D0D0D]"
-                onClick={() => setLightbox(src)}
+                key={photo.key}
+                className="aspect-square overflow-hidden cursor-pointer group bg-[#0D0D0D] relative"
               >
                 <img
-                  src={src}
-                  alt={`Галерея ${i + 1}`}
+                  src={photo.url}
+                  alt="Галерея"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  onClick={() => setLightbox(photo.url)}
                 />
+                {galleryAdminMode && (
+                  <button
+                    onClick={() => handleDeletePhoto(photo.key)}
+                    disabled={deletingKey === photo.key}
+                    className="absolute top-2 right-2 bg-black/70 text-white w-7 h-7 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                  >
+                    {deletingKey === photo.key ? "…" : "✕"}
+                  </button>
+                )}
               </div>
             ))}
           </div>
+
+          <input
+            ref={galleryInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handlePhotoUpload}
+          />
+
+          {galleryAdminMode ? (
+            <div className="flex items-center gap-4 flex-wrap">
+              <button
+                onClick={() => galleryInputRef.current?.click()}
+                disabled={uploadingPhoto}
+                className="font-oswald text-sm tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-6 py-3 font-bold hover:bg-white transition-colors disabled:opacity-50"
+                style={{ transition: "transform 0.2s ease, background 0.2s ease" }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.05)"}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
+              >
+                {uploadingPhoto ? "Загружаем..." : "+ Добавить фото"}
+              </button>
+              <button
+                onClick={() => { setGalleryAdminMode(false); setShowGalleryLogin(false); }}
+                className="font-ibm text-xs text-[#FFD000] tracking-widest uppercase"
+              >
+                Выйти
+              </button>
+            </div>
+          ) : (
+            <div>
+              <button
+                onClick={() => setShowGalleryLogin(v => !v)}
+                className="font-ibm text-xs text-[#333] hover:text-[#FFD000] transition-colors tracking-widest uppercase"
+              >
+                + Управление галереей
+              </button>
+
+              {showGalleryLogin && (
+                <div className="mt-4 flex gap-3 items-center" style={{ animation: "zoomIn 0.25s cubic-bezier(0.22,1,0.36,1) both" }}>
+                  <input
+                    type="password"
+                    placeholder="Пароль"
+                    value={galleryPassword}
+                    onChange={e => setGalleryPassword(e.target.value)}
+                    onKeyDown={e => e.key === "Enter" && handleGalleryLogin()}
+                    className="bg-transparent border border-[#1a1a1a] text-[#F5F5F5] placeholder-[#333] px-4 py-2 font-ibm text-sm focus:outline-none focus:border-[#FFD000] transition-colors"
+                  />
+                  <button
+                    onClick={handleGalleryLogin}
+                    className="font-oswald text-xs tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-4 py-2 font-bold hover:bg-white transition-colors"
+                    style={{ transition: "transform 0.2s ease, background 0.2s ease" }}
+                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.07)"}
+                    onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
+                  >
+                    Войти
+                  </button>
+                  {galleryError && <span className="font-ibm text-red-500 text-xs">{galleryError}</span>}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </Section>
 
