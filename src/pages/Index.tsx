@@ -455,35 +455,37 @@ export default function Index() {
             alt="Основатель BANNDA82"
             className="w-full h-full object-cover object-top"
           />
-          <div className="absolute bottom-10 right-8 text-right" style={{ zIndex: 20, pointerEvents: "auto" }}>
-            <a
-              href="https://vk.ru/banngun"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ display: "inline-block", textDecoration: "none", transition: "transform 0.2s ease" }}
-              onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.04)"}
-              onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
-            >
-              <span className="font-oswald text-[#FFD000] text-2xl md:text-3xl font-bold tracking-widest uppercase block leading-tight">BANNGUN</span>
-              <span className="font-ibm text-white text-base font-semibold block mt-1 tracking-wide">Баннов Александр Анатольевич</span>
-              <span className="font-ibm text-[#777] text-xs tracking-wider block mt-2">Основатель Nemezido Records</span>
-              <span className="font-ibm text-[#777] text-xs tracking-wider block">Создатель системы BANNDA82</span>
-            </a>
-            <div className="flex gap-2 mt-4 justify-end">
-              {galleryPhotos.slice(0, 5).map((photo) => (
-                <img
-                  key={photo.key}
-                  src={photo.url}
-                  alt="Фото"
-                  onClick={() => setLightbox(photo.url)}
-                  className="w-20 h-20 object-cover border border-[#2a2a2a] hover:border-[#FFD000] transition-colors cursor-pointer"
-                  style={{ transition: "transform 0.2s ease, border-color 0.2s ease" }}
-                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.08)"}
-                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
-                />
-              ))}
-            </div>
+          <div className="flex gap-2 mt-4 justify-end absolute bottom-10 right-8" style={{ zIndex: 20 }}>
+            {galleryPhotos.slice(0, 5).map((photo) => (
+              <img
+                key={photo.key}
+                src={photo.url}
+                alt="Фото"
+                onClick={() => setLightbox(photo.url)}
+                className="w-20 h-20 object-cover border border-[#2a2a2a] hover:border-[#FFD000] transition-colors cursor-pointer"
+                style={{ transition: "transform 0.2s ease, border-color 0.2s ease" }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.08)"}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
+              />
+            ))}
           </div>
+        </div>
+
+        {/* Founder info — поверх всего */}
+        <div className="absolute bottom-32 right-8 text-right" style={{ zIndex: 50 }}>
+          <a
+            href="https://vk.ru/banngun"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ display: "inline-block", textDecoration: "none", transition: "transform 0.2s ease", cursor: "pointer" }}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.04)"}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
+          >
+            <span className="font-oswald text-[#FFD000] text-2xl md:text-3xl font-bold tracking-widest uppercase block leading-tight">BANNGUN</span>
+            <span className="font-ibm text-white text-base font-semibold block mt-1 tracking-wide">Баннов Александр Анатольевич</span>
+            <span className="font-ibm text-[#777] text-xs tracking-wider block mt-2">Основатель Nemezido Records</span>
+            <span className="font-ibm text-[#777] text-xs tracking-wider block">Создатель системы BANNDA82</span>
+          </a>
         </div>
 
         <div className="relative max-w-7xl mx-auto w-full" style={{ zIndex: 3 }}>
