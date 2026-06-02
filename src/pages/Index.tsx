@@ -472,7 +472,7 @@ export default function Index() {
         </div>
 
         {/* Founder info — поверх всего */}
-        <div className="absolute bottom-32 right-8 text-right" style={{ zIndex: 50 }}>
+        <div className="absolute bottom-20 right-8 text-right" style={{ zIndex: 50 }}>
           <a
             href="https://vk.ru/banngun"
             target="_blank"
@@ -530,7 +530,7 @@ export default function Index() {
           </div>
         </div>
 
-        <div className="absolute bottom-8 right-8 flex items-center gap-3 text-[#333] animate-fade-in delay-700" style={{ zIndex: 3 }}>
+        <div className="absolute bottom-8 left-16 flex items-center gap-3 text-[#333] animate-fade-in delay-700" style={{ zIndex: 3 }}>
           <span className="font-ibm text-xs tracking-widest uppercase">Скролл</span>
           <Icon name="ArrowDown" size={14} />
         </div>
