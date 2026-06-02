@@ -455,7 +455,7 @@ export default function Index() {
             alt="Основатель BANNDA82"
             className="w-full h-full object-cover object-top"
           />
-          <div className="absolute bottom-10 right-8 text-right" style={{ zIndex: 10 }}>
+          <div className="absolute bottom-10 right-8 text-right" style={{ zIndex: 20, pointerEvents: "auto" }}>
             <a
               href="https://vk.ru/banngun"
               target="_blank"
