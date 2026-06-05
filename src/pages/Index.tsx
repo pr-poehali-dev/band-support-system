@@ -510,7 +510,7 @@ export default function Index() {
           </div>
 
           <div className="animate-fade-up delay-300 max-w-lg">
-            <p className="font-ibm text-[#666] text-lg leading-relaxed mb-10">
+            <p className="font-ibm text-[#FFD000] text-lg leading-relaxed mb-10">
               Студия звукозаписи. Команда музыкантов. Система поддержки.
               <br />
               Мы строим экосистему для тех, кто живёт музыкой.
