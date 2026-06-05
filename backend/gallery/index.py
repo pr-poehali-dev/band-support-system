@@ -41,6 +41,9 @@ def handler(event: dict, context) -> dict:
         if password != admin_password:
             return {'statusCode': 403, 'headers': {'Access-Control-Allow-Origin': '*'}, 'body': json.dumps({'error': 'Неверный пароль'})}
 
+        if action == 'check':
+            return {'statusCode': 200, 'headers': {'Access-Control-Allow-Origin': '*'}, 'body': json.dumps({'ok': True})}
+
         if action == 'delete':
             key = body.get('key', '')
             if not key.startswith('gallery/'):
