@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { label: "Регламент", href: "#rules" },
   { label: "Команда", href: "#bonuses" },
   { label: "Галерея", href: "#gallery" },
+  { label: "Наши мероприятия", href: "#events" },
   { label: "Правила и условия", href: "#terms" },
   { label: "Вступить", href: "#join" },
 ];
