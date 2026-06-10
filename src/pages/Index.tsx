@@ -100,6 +100,40 @@ const RULES = [
 
 
 
+const NOTES = ["♩", "♪", "♫", "♬", "𝄞", "𝄢"];
+
+function MusicNotes() {
+  const notes = Array.from({ length: 18 }, (_, i) => ({
+    id: i,
+    symbol: NOTES[i % NOTES.length],
+    left: `${(i * 5.5 + 2) % 100}%`,
+    size: `${14 + (i % 4) * 8}px`,
+    duration: `${8 + (i % 7) * 2.5}s`,
+    delay: `${(i * 1.1) % 14}s`,
+    opacity: 0.08 + (i % 5) * 0.04,
+  }));
+
+  return (
+    <>
+      {notes.map((n) => (
+        <span
+          key={n.id}
+          className="music-note"
+          style={{
+            left: n.left,
+            fontSize: n.size,
+            animationDuration: n.duration,
+            animationDelay: `-${n.delay}`,
+            opacity: n.opacity,
+          }}
+        >
+          {n.symbol}
+        </span>
+      ))}
+    </>
+  );
+}
+
 function useInView(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
@@ -379,6 +413,7 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F5] font-ibm">
       <div className="grain" />
+      <MusicNotes />
 
       {/* NAV */}
       <nav

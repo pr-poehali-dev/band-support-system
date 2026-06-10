@@ -199,6 +199,34 @@
     transform: scale(1.02);
   }
 
+  @keyframes note-fall {
+    0% {
+      transform: translateY(-60px) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  .music-note {
+    position: fixed;
+    top: 0;
+    pointer-events: none;
+    z-index: 1;
+    color: #ffd000;
+    animation: note-fall linear infinite;
+    user-select: none;
+    will-change: transform;
+  }
+
   .grain {
     position: fixed;
     inset: 0;
