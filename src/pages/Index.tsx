@@ -300,26 +300,41 @@ export default function Index() {
     }
   }
 
+  async function compressImage(file: File, maxWidth = 1200, quality = 0.82): Promise<{ base64: string; type: string }> {
+    return new Promise((resolve) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const scale = Math.min(1, maxWidth / img.width);
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        const ctx = canvas.getContext("2d")!;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL("image/jpeg", quality);
+        resolve({ base64: dataUrl.split(",")[1], type: "image/jpeg" });
+      };
+      img.src = url;
+    });
+  }
+
   async function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploadingPhoto(true);
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const base64 = (reader.result as string).split(",")[1];
-      const res = await fetch(GALLERY_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password: galleryPassword, file: base64, content_type: file.type, action: "upload" }),
-      });
-      const data = await res.json();
-      if (data.ok) {
-        setGalleryPhotos(p => [{ key: data.key, url: data.url }, ...p]);
-      }
-      setUploadingPhoto(false);
-      if (galleryInputRef.current) galleryInputRef.current.value = "";
-    };
-    reader.readAsDataURL(file);
+    const { base64, type } = await compressImage(file);
+    const res = await fetch(GALLERY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: galleryPassword, file: base64, content_type: type, action: "upload" }),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      setGalleryPhotos(p => [{ key: data.key, url: data.url }, ...p]);
+    }
+    setUploadingPhoto(false);
+    if (galleryInputRef.current) galleryInputRef.current.value = "";
   }
 
   async function handleDeletePhoto(key: string) {
