@@ -300,7 +300,7 @@ export default function Index() {
     }
   }
 
-  async function compressImage(file: File, maxWidth = 1200, quality = 0.82): Promise<{ base64: string; type: string }> {
+  async function compressImage(file: File, maxWidth = 900, quality = 0.65): Promise<{ base64: string; type: string }> {
     return new Promise((resolve) => {
       const img = new Image();
       const url = URL.createObjectURL(file);
