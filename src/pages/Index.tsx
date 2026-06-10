@@ -481,7 +481,7 @@ export default function Index() {
             onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.04)"}
             onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
           >
-            <span className="font-oswald text-[#FFD000] text-2xl md:text-3xl font-bold tracking-widest uppercase block leading-tight">BANNGUN</span>
+            <span className="font-oswald text-[#FFD000] text-2xl md:text-3xl font-bold tracking-widest uppercase block leading-tight underline decoration-[#FFD000] decoration-2 underline-offset-4 hover:text-white transition-colors">BANNGUN ↗</span>
             <span className="font-ibm text-white text-base font-semibold block mt-1 tracking-wide">Баннов Александр Анатольевич</span>
             <span className="font-ibm text-[#777] text-xs tracking-wider block mt-2">Основатель Nemezido Records</span>
             <span className="font-ibm text-[#777] text-xs tracking-wider block">Создатель системы BANNDA82</span>
