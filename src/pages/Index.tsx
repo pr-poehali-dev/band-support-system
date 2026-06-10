@@ -470,20 +470,7 @@ export default function Index() {
             alt="Основатель BANNDA82"
             className="w-full h-full object-cover object-top"
           />
-          <div className="flex gap-2 mt-4 justify-end absolute bottom-10 right-8" style={{ zIndex: 20 }}>
-            {galleryPhotos.slice(0, 5).map((photo) => (
-              <img
-                key={photo.key}
-                src={photo.url}
-                alt="Фото"
-                onClick={() => setLightbox(photo.url)}
-                className="w-20 h-20 object-cover border border-[#2a2a2a] hover:border-[#FFD000] transition-colors cursor-pointer"
-                style={{ transition: "transform 0.2s ease, border-color 0.2s ease" }}
-                onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.08)"}
-                onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
-              />
-            ))}
-          </div>
+
         </div>
 
         {/* Founder info — поверх всего */}
@@ -545,10 +532,7 @@ export default function Index() {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-16 flex items-center gap-3 text-[#333] animate-fade-in delay-700" style={{ zIndex: 3 }}>
-          <span className="font-ibm text-xs tracking-widest uppercase">Скролл</span>
-          <Icon name="ArrowDown" size={14} />
-        </div>
+
       </div>
 
       {/* IDEOLOGY */}
