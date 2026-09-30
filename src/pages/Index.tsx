@@ -256,8 +256,6 @@ export default function Index() {
   const [addError, setAddError] = useState("");
 
   const [applications, setApplications] = useState<{id: number; name: string; contact: string; about: string; created_at: string; status: string}[]>([]);
-  const [showAppsLogin, setShowAppsLogin] = useState(false);
-  const [appsPassword, setAppsPassword] = useState("");
   const [appsAdminMode, setAppsAdminMode] = useState(false);
   const [appsError, setAppsError] = useState("");
   const [deletingAppId, setDeletingAppId] = useState<number | null>(null);
@@ -326,16 +324,15 @@ export default function Index() {
     setTeamMembers(m => m.filter(x => x.id !== id));
   }
 
-  async function handleAppsLogin() {
+  async function handleAppsOpen() {
     setAppsError("");
-    const res = await fetch(`${SEND_APPLICATION_URL}?password=${encodeURIComponent(appsPassword)}`);
+    const res = await fetch(SEND_APPLICATION_URL);
     const data = await res.json();
     if (res.status === 403 || data.error) {
-      setAppsError("Неверный пароль");
+      setAppsError("Не удалось загрузить заявки");
     } else {
       setApplications(data.applications || []);
       setAppsAdminMode(true);
-      setShowAppsLogin(false);
     }
   }
 
@@ -344,7 +341,7 @@ export default function Index() {
     await fetch(SEND_APPLICATION_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "delete", id, password: appsPassword }),
+      body: JSON.stringify({ action: "delete", id }),
     });
     setApplications(a => a.filter(x => x.id !== id));
     setDeletingAppId(null);
@@ -887,45 +884,21 @@ export default function Index() {
           <div className="mt-16 pt-10 border-t border-[#141414]">
             {!appsAdminMode ? (
               <button
-                onClick={() => setShowAppsLogin(v => !v)}
+                onClick={handleAppsOpen}
                 className="font-ibm text-xs text-[#333] hover:text-[#FFD000] transition-colors tracking-widest uppercase"
               >
                 + Управление заявками
               </button>
             ) : (
               <button
-                onClick={() => { setAppsAdminMode(false); setShowAppsLogin(false); }}
+                onClick={() => setAppsAdminMode(false)}
                 className="font-ibm text-xs text-[#FFD000] tracking-widest uppercase"
               >
                 Выйти из режима управления
               </button>
             )}
 
-            {showAppsLogin && !appsAdminMode && (
-              <div
-                className="mt-4 flex gap-3 items-center"
-                style={{ animation: "zoomIn 0.25s cubic-bezier(0.22,1,0.36,1) both" }}
-              >
-                <input
-                  type="password"
-                  placeholder="Пароль"
-                  value={appsPassword}
-                  onChange={e => setAppsPassword(e.target.value)}
-                  onKeyDown={e => e.key === "Enter" && handleAppsLogin()}
-                  className="bg-transparent border border-[#1a1a1a] text-[#F5F5F5] placeholder-[#333] px-4 py-2 font-ibm text-sm focus:outline-none focus:border-[#FFD000] transition-colors"
-                />
-                <button
-                  onClick={handleAppsLogin}
-                  className="font-oswald text-xs tracking-widest uppercase bg-[#FFD000] text-[#0A0A0A] px-4 py-2 font-bold hover:bg-white transition-colors"
-                  style={{ transition: "transform 0.2s ease, background 0.2s ease" }}
-                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.transform = "scale(1.07)"}
-                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = "scale(1)"}
-                >
-                  Войти
-                </button>
-                {appsError && <span className="font-ibm text-red-500 text-xs">{appsError}</span>}
-              </div>
-            )}
+            {appsError && <div className="mt-3 font-ibm text-red-500 text-xs">{appsError}</div>}
 
             {appsAdminMode && (
               <div className="mt-6 flex flex-col gap-px bg-[#1a1a1a]">

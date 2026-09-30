@@ -20,19 +20,11 @@ def handler(event: dict, context) -> dict:
         return {"statusCode": 200, "headers": cors_headers, "body": ""}
 
     method = event.get("httpMethod", "GET")
-    admin_password = os.environ.get("ADMIN_PASSWORD", "")
 
     conn = psycopg2.connect(os.environ["DATABASE_URL"])
     cur = conn.cursor()
 
     if method == "GET":
-        params = event.get("queryStringParameters") or {}
-        password = params.get("password", "")
-        if password != admin_password:
-            cur.close()
-            conn.close()
-            return {"statusCode": 403, "headers": cors_headers, "body": json.dumps({"error": "Неверный пароль"})}
-
         cur.execute("SELECT id, name, contact, about, created_at, status FROM applications ORDER BY id DESC")
         rows = cur.fetchall()
         applications = [
@@ -54,20 +46,7 @@ def handler(event: dict, context) -> dict:
         body = json.loads(event.get("body") or "{}")
         action = body.get("action", "create")
 
-        if action == "check":
-            password = body.get("password", "")
-            cur.close()
-            conn.close()
-            if password != admin_password:
-                return {"statusCode": 403, "headers": cors_headers, "body": json.dumps({"error": "Неверный пароль"})}
-            return {"statusCode": 200, "headers": cors_headers, "body": json.dumps({"ok": True})}
-
         if action == "delete":
-            password = body.get("password", "")
-            if password != admin_password:
-                cur.close()
-                conn.close()
-                return {"statusCode": 403, "headers": cors_headers, "body": json.dumps({"error": "Неверный пароль"})}
             app_id = body.get("id")
             cur.execute("DELETE FROM applications WHERE id = %s", (app_id,))
             conn.commit()
