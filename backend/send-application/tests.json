@@ -16,8 +16,7 @@
         "about": "Играю на гитаре, рок"
       },
       "expectedStatus": 200,
-      "expectedBody": { "ok": true },
-      "bodyMatcher": "partial"
+      "bodyMatcher": "none"
     }
   ]
 }

@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS applications (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    contact VARCHAR(255) NOT NULL,
+    about TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    status VARCHAR(50) NOT NULL DEFAULT 'new'
+);
