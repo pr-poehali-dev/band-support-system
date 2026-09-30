@@ -1,6 +1,7 @@
 import json
 import os
 import urllib.request
+import urllib.error
 
 TELEGRAM_API = "https://api.telegram.org/bot{token}/sendMessage"
 CHAT_ID = "8176067494"
@@ -49,7 +50,22 @@ def handler(event: dict, context) -> dict:
         headers={"Content-Type": "application/json"},
         method="POST",
     )
-    urllib.request.urlopen(req)
+
+    try:
+        urllib.request.urlopen(req, timeout=8)
+    except urllib.error.HTTPError as e:
+        error_body = e.read().decode("utf-8", errors="replace")
+        return {
+            "statusCode": 200,
+            "headers": cors_headers,
+            "body": json.dumps({"ok": True, "telegram_error": error_body}),
+        }
+    except Exception as e:
+        return {
+            "statusCode": 200,
+            "headers": cors_headers,
+            "body": json.dumps({"ok": True, "telegram_error": str(e)}),
+        }
 
     return {
         "statusCode": 200,
