@@ -1,15 +1,35 @@
 import json
 import os
-import urllib.request
-import urllib.error
+import smtplib
+from email.mime.text import MIMEText
 import psycopg2
 
-TELEGRAM_API = "https://api.telegram.org/bot{token}/sendMessage"
-CHAT_ID = "8176067494"
+NOTIFY_EMAIL = "bannda82@mail.ru"
+
+
+def send_notification_email(name: str, contact: str, about: str) -> None:
+    password = os.environ.get("MAILRU_SMTP_PASSWORD", "")
+    if not password:
+        return
+
+    text = (
+        f"Новая заявка в BANNDA82\n\n"
+        f"Имя: {name}\n"
+        f"Контакт: {contact}\n"
+        f"О себе: {about or '—'}"
+    )
+    msg = MIMEText(text, "plain", "utf-8")
+    msg["Subject"] = "Новая заявка BANNDA82"
+    msg["From"] = NOTIFY_EMAIL
+    msg["To"] = NOTIFY_EMAIL
+
+    with smtplib.SMTP_SSL("smtp.mail.ru", 465, timeout=8) as server:
+        server.login(NOTIFY_EMAIL, password)
+        server.sendmail(NOTIFY_EMAIL, [NOTIFY_EMAIL], msg.as_string())
 
 
 def handler(event: dict, context) -> dict:
-    """Приём заявок на вступление в BANNDA82: сохранение в базу, просмотр и удаление заявок админом."""
+    """Приём заявок на вступление в BANNDA82: сохранение в базу, письмо на почту, просмотр и удаление заявок."""
     cors_headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -76,29 +96,10 @@ def handler(event: dict, context) -> dict:
         cur.close()
         conn.close()
 
-        token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
-        if token:
-            text = (
-                "🎵 *Новая заявка в BANNDA82*\n\n"
-                f"👤 *Имя:* {name}\n"
-                f"📲 *Контакт:* {contact}\n"
-                f"📝 *О себе:* {about or '—'}"
-            )
-            payload = json.dumps({
-                "chat_id": CHAT_ID,
-                "text": text,
-                "parse_mode": "Markdown",
-            }).encode()
-            req = urllib.request.Request(
-                TELEGRAM_API.format(token=token),
-                data=payload,
-                headers={"Content-Type": "application/json"},
-                method="POST",
-            )
-            try:
-                urllib.request.urlopen(req, timeout=3)
-            except Exception:
-                pass
+        try:
+            send_notification_email(name, contact, about)
+        except Exception:
+            pass
 
         return {
             "statusCode": 200,
